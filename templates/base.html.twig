@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" >
+        <link rel="canonical" href="http://www.bstst.8u.cz">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <meta name="keywords" content="maturita,eshop" >
+        <meta name="description" content="Projekt dlouhodobé maturitní práce.">
+        <!--GOOGLE+-->
+        <link rel="author" href="https://plus.google.com/u/0/115111710746527975391">
+        <link rel="publisher" href="">
+        <link type="text/css" href="https://fonts.googleapis.com/css?family=Jura" rel="stylesheet">
+        <title>{% block title %}Some title{% endblock %}</title>
+        {% block stylesheets %}
+            <link type="text/css" href="{{ asset('custom/css/main.min.css') }}" rel="stylesheet">
+        {% endblock %}
+    </head>
+    <body>
+        <noscript>
+            K správnému chodu stránky je potřeba mít aktivovaný JavaScript.
+        </noscript>
+        <div id="content">
+            {% block body %}{% endblock %}
+            {{ include('includes/footer.html.twig') }}
+        </div>
+        {% block javascripts %}
+            <script type="text/javascript" src="{{ asset('custom/js/main.script.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('custom/js/load_more.min.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('custom/js/suggestions.min.js') }}"></script>
+        {% endblock %}
+    </body>
+</html>

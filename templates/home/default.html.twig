@@ -1,0 +1,25 @@
+{# templates/home/default.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div id="main">
+        <div id="new">
+            <p id="n-p">NOVĚ VYDANÉ HRY</p>
+            <div id="new-container">
+                {% for new_game in newest %}
+                    {{ include('includes/newest.html.twig',{'new_game' : new_game}) }}
+                {% endfor %}
+            </div>
+            <div id="btn-container">
+                <button id="lmbtn" data-offset="8">Načíst další</button>
+            </div>
+        </div>
+        <div id="best">
+            <p id="b-p">NEJPRODÁVANĚJŠÍ HRY</p>
+            {% for best_game in best %}
+                {{ include('includes/best.html.twig',{'best_game' : best_game}) }}
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

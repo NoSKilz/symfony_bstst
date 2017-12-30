@@ -1,0 +1,12 @@
+ <a href="{{ new_game.getProductName }}">
+     <div class="new-prod">
+         <div class="flip">
+             <div class="front">
+                 <img src="{{ asset('images/'~ new_game.getPicture) }}" alt="Obrázek pro hru {{ new_game.getProductName }}">
+                 <p class="name">{{ new_game.getProductName }} ({{ new_game.getPlatformName }})</p>
+                 <p class="price">{{ new_game.getPrice }} Kč</p>
+             </div>
+             <div class="back">{{ new_game.getDescription }}</div>
+         </div>
+     </div>
+ </a>
