@@ -1,7 +1,9 @@
 {# templates/home/default.html.twig #}
 
 {% extends 'base.html.twig' %}
-
+{% block header %}
+    {{ include('includes/header.html.twig',{'platforms' : platforms,'genres' : genres, 'register_form' : register_form, 'error' : error, 'lastUsername' : lastUsername}) }}
+{% endblock %}
 {% block body %}
     <div id="main">
         <div id="new">

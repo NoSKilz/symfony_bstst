@@ -13,6 +13,9 @@
         <link type="text/css" href="https://fonts.googleapis.com/css?family=Jura" rel="stylesheet">
         <title>{% block title %}Some title{% endblock %}</title>
         {% block stylesheets %}
+            {% if app.user %}
+                <link type="text/css" href="{{ asset('custom/css/logged.min.css') }}" rel="stylesheet">
+            {% endif %}
             <link type="text/css" href="{{ asset('custom/css/main.min.css') }}" rel="stylesheet">
         {% endblock %}
     </head>
@@ -21,11 +24,34 @@
             K správnému chodu stránky je potřeba mít aktivovaný JavaScript.
         </noscript>
         <div id="content">
+            {% set success = app.flashes('success') %}
+            {% set errors = app.flashes('errors') %}
+            {% if errors %}
+                <div id="errors" style="display: block;">
+                    <span class="closeerr">&times;</span>
+                    {% for message in errors %}
+                        <p>
+                            {{ message }}
+                        </p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% if success %}
+                <div id="success" style="display: block;">
+                    <span class="closesc">&times;</span>
+                    {% for message in success %}
+                        <p>
+                            {{ message }}
+                        </p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+            {% block header %}{% endblock %}
             {% block body %}{% endblock %}
             {{ include('includes/footer.html.twig') }}
         </div>
         {% block javascripts %}
-            <script type="text/javascript" src="{{ asset('custom/js/main.script.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('custom/js/main.script.min.js') }}"></script>
             <script type="text/javascript" src="{{ asset('custom/js/load_more.min.js') }}"></script>
             <script type="text/javascript" src="{{ asset('custom/js/suggestions.min.js') }}"></script>
         {% endblock %}

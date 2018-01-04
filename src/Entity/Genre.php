@@ -3,25 +3,46 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\GenreRepository")
+ * @UniqueEntity(fields="genre_name", message="Žánr s daným jénem už existuje")
  */
 class Genre
 {
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
+     * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
     private $genre_id;
 
     /**
-     * @ORM\Column(type="string", length=20)
+     * @ORM\Column(type="string", length=20, unique=true, nullable=FALSE, options={"collate"="utf8_czech_ci"})
      */
     private $genre_name;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Product", mappedBy="genre")
+     */
+    private $products;
+
     //------------------------------------------------------------------------------------------------------------------
+
+    public function __construct()
+    {
+        $this->products = new ArrayCollection();
+    }
+
+    /**
+     * @return Collection|Product[]
+     */
+    public function getProducts()
+    {
+        return $this->products;
+    }
 
     /**
      * @return mixed

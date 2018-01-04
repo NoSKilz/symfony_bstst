@@ -1,0 +1,98 @@
+<header>
+    <div id="reg-log">
+        {% if app.user %}
+        {% if app.user.getRole in 'admin' %}
+        <p>Jste přihlášen jako Admin</p>
+        <div class="adm-container">
+            <a href="administration.php" class="adm">Vstup do Administrace</a>
+
+        </div>
+        {% else %}
+        <p>Jste přihlášen jako {{ app.user.getUserName }}</p>
+        <div class="adm-container">
+            <a href="user" class="adm">Vstup do Uživatelského rozhraní</a>
+        </div>
+        {% endif %}
+        <a href="{{ path('logout') }}" class="logout">Odhlásit se</a>
+        {% else %}
+        <button id="register-button">
+            Registrace
+        </button>
+        <button id="login-button">
+            Přihlášení
+        </button>
+        <div id="reglog-modal" style="display: none;">
+            <span id="register" style="display: none">
+            {{ form_start(register_form) }}
+            <span class="close">×</span>
+            {{ form_label(register_form.user_name) }}
+            {{ form_widget(register_form.user_name) }}
+            {{ form_label(register_form.plainPassword.first) }}
+            {{ form_widget(register_form.plainPassword.first) }}
+            {{ form_label(register_form.plainPassword.second) }}
+            {{ form_widget(register_form.plainPassword.second) }}
+            {{ form_label(register_form.user_email.first) }}
+            {{ form_widget(register_form.user_email.first) }}
+            {{ form_label(register_form.user_email.second) }}
+            {{ form_widget(register_form.user_email.second) }}
+            {{ form_widget(register_form.submit) }}
+            <p id="register-p">Už máte účet? <span id="register-span">Přihlásit se.</span></p>
+            {{ form_end(register_form) }}
+            </span>
+            <form action="{{ path('login') }}" method="post" id="login">
+                <span class="close cursor">&times;</span>
+                <label for="username">Uživatelské jméno</label>
+                <input type="text" id="username" name="_username" value="{{ lastUsername }}" />
+                <label for="password">Heslo</label>
+                <input type="password" id="password" name="_password" />
+                <input type="hidden" name="_target_path" value="{{ app.request.uri }}" />
+                <button type="submit">Přihlásit</button>
+                <p id="login-p">Nemáte účet? <span id="login-span">Zaregistrujte se.</span></p>
+            </form>
+        </div>
+        {% endif %}
+    </div>
+    <div id="search">
+        <div id="form-container">
+            <form>
+                <div id="suggestions-container">
+                    <input type="search" id="search-input" autocomplete="off"/>
+                    <div id="suggestions"></div>
+                </div>
+                <input type="submit" value="search"/>
+            </form>
+        </div>
+        <a href="cart.php"><button id="cart-btn" class>Košík</button></a>
+    </div>
+    <div id="navigation">
+        <div id="navigation-container">
+            <ul id="navigation-ul">
+                {% for platform in platforms %}
+                <li class="platform"><a href="#">{{ platform.getPlatformName }}</a>
+                    <ul class="genre-ul">
+                        {% for genre in genres %}
+                        <li class="genre">
+                            <a href="{{ genre.getGenreName }}">{{ genre.getGenreName }}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div id="accordion-container">
+            {% for platform in platforms %}
+            <button class="accordion">{{ platform.getPlatformName }}</button>
+            <div class="panel">
+                <ul class="genre-ul">
+                    {% for genre in genres %}
+                    <li class="genre">
+                        <a href="{{ genre.getGenreName }}">{{ genre.getGenreName }}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</header>

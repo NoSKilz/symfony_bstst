@@ -6,7 +6,7 @@
                  <p class="name">{{ new_game.getProductName }} ({{ new_game.getPlatformName }})</p>
                  <p class="price">{{ new_game.getPrice }} Kč</p>
              </div>
-             <div class="back">{{ new_game.getDescription }}</div>
+             <div class="back">{{ new_game.getDescription | truncate(200) }}</div>
          </div>
      </div>
  </a>

@@ -22,9 +22,21 @@ class Comments
     private $user_id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="comments")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="user_id")
+     */
+    private $user;
+
+    /**
      * @ORM\Column(type="integer")
      */
     private $product_id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Product", inversedBy="comments")
+     * @ORM\JoinColumn(name="product_id", referencedColumnName="product_id")
+     */
+    private $product;
 
     /**
      * @ORM\Column(type="string", length=1000)
@@ -37,6 +49,26 @@ class Comments
     private $uploaded;
 
     //------------------------------------------------------------------------------------------------------------------
+
+    public function getUser(): User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user)
+    {
+        $this->user = $user;
+    }
+
+    public function getProduct(): Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(Product $product)
+    {
+        $this->product = $product;
+    }
 
     /**
      * @return mixed

@@ -247,5 +247,56 @@
             "version": "4.0",
             "ref": "aaddfdf43cdecd4cf91f992052d76c2cadc04543"
         }
+    },
+    "symfony/inflector": {
+        "version": "v4.0.2"
+    },
+    "symfony/property-access": {
+        "version": "v4.0.2"
+    },
+    "symfony/options-resolver": {
+        "version": "v4.0.2"
+    },
+    "symfony/intl": {
+        "version": "v4.0.2"
+    },
+    "symfony/polyfill-intl-icu": {
+        "version": "v1.6.0"
+    },
+    "symfony/form": {
+        "version": "v4.0.2"
+    },
+    "symfony/security": {
+        "version": "v4.0.2"
+    },
+    "symfony/security-bundle": {
+        "version": "3.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.3",
+            "ref": "85834af1496735f28d831489d12ab1921a875e0d"
+        }
+    },
+    "symfony/translation": {
+        "version": "3.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.3",
+            "ref": "6bcd6c570c017ea6ae5a7a6a027c929fd3542cd8"
+        }
+    },
+    "symfony/validator": {
+        "version": "v4.0.2"
+    },
+    "twig/extensions": {
+        "version": "1.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "4851df0afc426b8f07204379d21fca25b6df5d68"
+        }
     }
 }

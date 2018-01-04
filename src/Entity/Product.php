@@ -22,9 +22,21 @@ class Product
     private $platform_name;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Platform", inversedBy="products")
+     * @ORM\JoinColumn(name="platform_name", referencedColumnName="platform_id")
+     */
+    private $platform;
+
+    /**
      * @ORM\Column(type="string", length=30)
      */
     private $genre_name;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Genre", inversedBy="products")
+     * @ORM\JoinColumn(name="genre_name", referencedColumnName="genre_id")
+     */
+    private $genre;
 
     /**
      * @ORM\Column(type="string", length=50)
@@ -66,7 +78,45 @@ class Product
      */
     private $delivery_time;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Comments", mappedBy="product")
+     */
+    private $comments;
+
     //------------------------------------------------------------------------------------------------------------------
+
+    public function getPlatform(): Platform
+    {
+        return $this->platform;
+    }
+
+    public function setPlatform(Platform $platform)
+    {
+        $this->platform = $platform;
+    }
+
+    public function getGenre(): Genre
+    {
+        return $this->genre;
+    }
+
+    public function setGenre(Genre $genre)
+    {
+        $this->genre = $genre;
+    }
+
+    public function __construct()
+    {
+        $this->comments = new ArrayCollection();
+    }
+
+    /**
+     * @return Collection|Comments[]
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
 
     /**
      * @return mixed
