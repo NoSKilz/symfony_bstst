@@ -17,12 +17,28 @@ if(document.getElementById('lmbtn'))
         }
         xhttp.onreadystatechange = function() 
         {
-            if (this.readyState == 4 && this.status == 200) 
+            if (this.readyState === 4 && this.status === 200)
             {
-                if(this.responseText)
+                var data = JSON.parse(this.responseText);
+                if(!isEmpty(data))
                 {
-                    document.getElementById('new-container').innerHTML = document.getElementById('new-container').innerHTML+
-                    this.responseText;
+                    var output = '';
+                    for(var i=1 ; i <= Object.keys(data).length ; i++)
+                    {
+                        output += '<a href="'+data[i].platform_name+'">'+
+                                      '<div class="new-prod">' +
+                                          '<div class="flip">' +
+                                              '<div class="front">' +
+                                                  '<img src="images/'+data[i].picture+'" alt="Obrázek pro hru '+data[i].product_name+'">'+
+                                                  '<p class="name">'+data[i].product_name+' ('+data[i].platform_name+')</p>'+
+                                                  '<p class="price">'+data[i].price+' Kč</p>'+
+                                              '</div>'+
+                                              '<div class="back">'+data[i].description+'</div>'+
+                                          '</div>'+
+                                      '</div>'+
+                                  '</a>';
+                    }
+                    document.getElementById('new-container').innerHTML = document.getElementById('new-container').innerHTML+output;
                     document.getElementById('lmbtn').setAttribute('data-offset',parseInt(offset)+8);
                 }
                 else
@@ -31,8 +47,19 @@ if(document.getElementById('lmbtn'))
                 }
             }
         };
-        xhttp.open('POST', 'http://localhost/better_shop/resources/load_more.php', true);
+        xhttp.open('POST', '/ajax/loadmore', true);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhttp.send('offset='+offset);
     });
+}
+function isEmpty(obj)
+{
+    for(var key in obj)
+    {
+        if(obj.hasOwnProperty(key))
+        {
+            return false;
+        }
+    }
+    return true;
 }

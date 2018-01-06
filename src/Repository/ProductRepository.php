@@ -13,20 +13,20 @@ class ProductRepository extends ServiceEntityRepository
         parent::__construct($registry, Product::class);
     }
 
-    public function findNewest()
+    public function findNewest($offset)
     {
         return $this->createQueryBuilder('p')
             ->orderBy('p.uploaded', 'DESC')
+            ->setFirstResult($offset)
             ->setMaxResults(8)
             ->getQuery()
             ->getResult();
     }
 
-    public function findBest($offset)
+    public function findBest()
     {
         return $this->createQueryBuilder('p')
             ->orderBy('p.sold', 'DESC')
-            ->setFirstResult($offset)
             ->setMaxResults(20)
             ->getQuery()
             ->getResult();

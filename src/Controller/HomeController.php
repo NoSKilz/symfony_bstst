@@ -12,9 +12,6 @@ use App\Entity\Platform;
 use App\Entity\Genre;
 use App\Entity\Product;
 use App\Form\Register;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
@@ -31,8 +28,8 @@ class HomeController extends Controller
         $platforms = $this->getDoctrine()->getRepository(Platform::class)->findAll();
         $genres = $this->getDoctrine()->getRepository(Genre::class)->findAll();
         $products = $this->getDoctrine()->getRepository(Product::class);
-        $newest = $products->findNewest();
-        $best = $products->findBest(0);
+        $newest = $products->findNewest(0);
+        $best = $products->findBest();
         $error = $authUtils->getLastAuthenticationError();
         $lastUsername = $authUtils->getLastUsername();
         return $this->render('home/default.html.twig', [

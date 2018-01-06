@@ -5,6 +5,7 @@ use Symfony\Component\Routing\Route;
 use App\Controller\LuckyController;
 use App\Controller\HomeController;
 use App\Controller\SecurityController;
+use App\Controller\AjaxController;
 
 $collection = new RouteCollection();
 $collection->add('lucky_number', 
@@ -22,9 +23,13 @@ $collection->add('login',
                      ['_controller' => [SecurityController::class, 'login']])
                 );
 $collection->add('register',
-    new Route('/register',
-        ['_controller' => [SecurityController::class, 'register']])
-);
+                 new Route('/register',
+                 ['_controller' => [SecurityController::class, 'register']])
+                );
 $collection->add('logout', new Route('/logout'));
+$collection->add('loadmore',
+                 new Route('/ajax/loadmore',
+                 ['_controller' => [AjaxController::class, 'loadMore']])
+                );
 
 return $collection;
