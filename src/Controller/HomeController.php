@@ -12,19 +12,30 @@ use App\Entity\Platform;
 use App\Entity\Genre;
 use App\Entity\Product;
 use App\Form\Register;
+use App\Form\Search;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\HttpFoundation\Request;
 
 class HomeController extends Controller
 {
-    public function default(AuthenticationUtils $authUtils)
+    public function default(Request $request, AuthenticationUtils $authUtils)
     {
-        // 1) build the form
         $user = new User();
-        $form = $this->createForm(Register::class, $user, [
+        $register_form = $this->createForm(Register::class, $user, [
                 'action' => $this->generateUrl('register'),
                 'method' => 'POST']
         );
+        $search_form = $this->createForm(Search::class, NULL, [
+                'action' => $this->generateUrl('home'),
+                'method' => 'POST']
+        );
+        $search_form->handleRequest($request);
+        if($search_form->isSubmitted())
+        {
+            $query = $search_form->get('search_query')->getData();
+            return $this->redirectToRoute('search', ['query' => $query]);
+        }
         $platforms = $this->getDoctrine()->getRepository(Platform::class)->findAll();
         $genres = $this->getDoctrine()->getRepository(Genre::class)->findAll();
         $products = $this->getDoctrine()->getRepository(Product::class);
@@ -37,7 +48,8 @@ class HomeController extends Controller
                 'best' => $best,
                 'platforms' => $platforms,
                 'genres' => $genres,
-                'register_form' => $form->createView(),
+                'register_form' => $register_form->createView(),
+                'search_form' => $search_form->createView(),
                 'error' => $error,
                 'lastUsername' => $lastUsername]
         );

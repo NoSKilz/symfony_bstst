@@ -31,6 +31,29 @@ class ProductRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+    public function findByPlatformGenre($platform, $genre)
+    {
+        $qb = $this->createQueryBuilder('p');
+        return $qb->select('p.product_id, p.product_name, p.platform_name, p.price')
+                  ->where($qb->expr()->andX(
+                      $qb->expr()->eq('p.platform_name', '?1'),
+                      $qb->expr()->eq('p.genre_name', '?2')
+                  ))
+                  ->orderBy('p.product_name','DESC')
+                  ->setParameters([1 => $platform , 2 => $genre])
+                  ->getQuery()
+                  ->getResult();
+    }
+    public function findSearch($query)
+    {
+        $qb = $this->createQueryBuilder('p');
+        return $qb->select('p.product_id, p.product_name, p.platform_name, p.price')
+                  ->where($qb->expr()->like('p.product_name','?1'))
+                  ->orderBy('p.product_name','DESC')
+                  ->setParameters([1 => '%' . $query . '%'])
+                  ->getQuery()
+                  ->getResult();
+    }
     /*
     public function findBySomething($value)
     {

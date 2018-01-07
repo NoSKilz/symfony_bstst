@@ -26,41 +26,43 @@
             {{ form_start(register_form) }}
             <span class="close">×</span>
             {{ form_label(register_form.user_name) }}
-            {{ form_widget(register_form.user_name) }}
+            {{ form_widget(register_form.user_name,{ 'attr' : {'placeholder' : 'Uživateslké jméno'}}) }}
             {{ form_label(register_form.plainPassword.first) }}
-            {{ form_widget(register_form.plainPassword.first) }}
+            {{ form_widget(register_form.plainPassword.first,{ 'attr' : {'placeholder' : 'Heslo'}}) }}
             {{ form_label(register_form.plainPassword.second) }}
-            {{ form_widget(register_form.plainPassword.second) }}
+            {{ form_widget(register_form.plainPassword.second,{ 'attr' : {'placeholder' : 'Heslo znovu'}}) }}
             {{ form_label(register_form.user_email.first) }}
-            {{ form_widget(register_form.user_email.first) }}
+            {{ form_widget(register_form.user_email.first,{ 'attr' : {'placeholder' : 'Email'}}) }}
             {{ form_label(register_form.user_email.second) }}
-            {{ form_widget(register_form.user_email.second) }}
-            {{ form_widget(register_form.submit) }}
+            {{ form_widget(register_form.user_email.second,{ 'attr' : {'placeholder' : 'Email znovu'}}) }}
+            <input type="submit" value="Registrovat" />
             <p id="register-p">Už máte účet? <span id="register-span">Přihlásit se.</span></p>
             {{ form_end(register_form) }}
             </span>
-            <form action="{{ path('login') }}" method="post" id="login">
+            <span id="login" style="display: none">
+            <form action="{{ path('login') }}" method="post">
                 <span class="close cursor">&times;</span>
                 <label for="username">Uživatelské jméno</label>
-                <input type="text" id="username" name="_username" value="{{ lastUsername }}" />
+                <input type="text" placeholder="Uživateslké jméno" id="username" name="_username" value="{{ lastUsername }}" />
                 <label for="password">Heslo</label>
-                <input type="password" id="password" name="_password" />
+                <input type="password" placeholder="Heslo" id="password" name="_password" />
                 <input type="hidden" name="_target_path" value="{{ app.request.uri }}" />
-                <button type="submit">Přihlásit</button>
+                <input type="submit" value="Přihlásit" />
                 <p id="login-p">Nemáte účet? <span id="login-span">Zaregistrujte se.</span></p>
             </form>
+            </span>
         </div>
         {% endif %}
     </div>
     <div id="search">
         <div id="form-container">
-            <form>
+            {{ form_start(search_form) }}
                 <div id="suggestions-container">
-                    <input type="search" id="search-input" autocomplete="off"/>
+                    {{ form_widget(search_form.search_query,{ 'attr' : {'placeholder' : 'Vyhledat hru' , 'id' : 'search-input'}}) }}
                     <div id="suggestions"></div>
                 </div>
                 <input type="submit" value="search"/>
-            </form>
+            {{ form_end(register_form) }}
         </div>
         <a href="cart.php"><button id="cart-btn" class>Košík</button></a>
     </div>
@@ -72,7 +74,7 @@
                     <ul class="genre-ul">
                         {% for genre in genres %}
                         <li class="genre">
-                            <a href="{{ genre.getGenreName }}">{{ genre.getGenreName }}</a>
+                            <a href="{{ path('showgames',{'platform' : platform.getPlatformName , 'genre' : genre.getGenreName}) }}">{{ genre.getGenreName }}</a>
                         </li>
                         {% endfor %}
                     </ul>
@@ -87,7 +89,7 @@
                 <ul class="genre-ul">
                     {% for genre in genres %}
                     <li class="genre">
-                        <a href="{{ genre.getGenreName }}">{{ genre.getGenreName }}</a>
+                        <a href="{{ path('showgames',{'platform' : platform.getPlatformName , 'genre' : genre.getGenreName}) }}">{{ genre.getGenreName }}</a>
                     </li>
                     {% endfor %}
                 </ul>

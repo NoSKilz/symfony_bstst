@@ -11,7 +11,6 @@ use App\Entity\User;
 use App\Form\Register;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Logout\LogoutSuccessHandlerInterface;
@@ -49,6 +48,7 @@ class SecurityController extends Controller implements LogoutSuccessHandlerInter
             $user->setAdmin(0);
             $user->setIsActive(1);
             $user->setRole('user');
+            $user->setJoined(new \DateTime('now'));
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
@@ -57,8 +57,6 @@ class SecurityController extends Controller implements LogoutSuccessHandlerInter
         }
         else
         {
-            $form_err = $form->getErrors();
-            //$this->addFlash('errors',(string)$form->getErrors(true, false));
             foreach ($form as $fieldName => $formField)
             {
                 foreach ($formField->getErrors(true) as $error)
@@ -66,15 +64,6 @@ class SecurityController extends Controller implements LogoutSuccessHandlerInter
                     $this->addFlash('errors',$error->getMessage());
                 }
             }
-            /*foreach($form_err as $error)
-            {
-                $this->addFlash('errors',$error->getMessage());
-            }*/
-            //return var_dump($form->getErrors(true,true));
-            /*foreach($errors as $message)
-            {
-                $this->addFlash('errors',$message);
-            }*/
             return $this->redirect($referer);
         }
     }

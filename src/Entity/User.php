@@ -67,6 +67,12 @@ class User implements UserInterface, \Serializable
     private $isActive;
 
     /**
+     * @ORM\Column(type="datetime")
+     * @Assert\Date()
+     */
+    private $joined;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Comments", mappedBy="user")
      */
     private $comments;
@@ -230,8 +236,8 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * @return mixed
-     */
+ * @return mixed
+ */
     public function getisActive()
     {
         return $this->isActive;
@@ -243,6 +249,22 @@ class User implements UserInterface, \Serializable
     public function setIsActive($isActive)
     {
         $this->isActive = $isActive;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getJoined()
+    {
+        return $this->joined;
+    }
+
+    /**
+     * @param mixed $isActive
+     */
+    public function setJoined($joined)
+    {
+        $this->joined = $joined;
     }
 
 

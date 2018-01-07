@@ -1,0 +1,104 @@
+{# templates/home/default.html.twig #}
+
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    {% if app.user %}
+        <link type="text/css" href="{{ asset('custom/css/logged.min.css') }}" rel="stylesheet">
+    {% endif %}
+    <link type="text/css" href="{{ asset('custom/css/product.min.css') }}" rel="stylesheet">
+{% endblock %}
+{% block header %}
+    {{ include('includes/header.html.twig',{'platforms' : platforms,'genres' : genres, 'register_form' : register_form, 'error' : error, 'lastUsername' : lastUsername}) }}
+{% endblock %}
+{% block body %}
+    <div id="main">
+        <div id="product">
+            {% if product %}
+            <div id="product-container">
+                <div id="smt-container">
+                    <div id="picture-container">
+                        <div id="picture">
+                            <img src="{{ asset('images/'~ product.getPicture) }}">
+                        </div>
+                    </div>
+                    <div id="rest-container">
+                        <div id="p-name">
+                            <p>{{ product.getProductName }} ({{ product.getPlatformName }})</p>
+                        </div>
+                        <div id="price">
+                            <p>Cena:   {{ product.getPrice }} Kč</p>
+                        </div>
+                        <div id="genname">
+                            <a>
+                                <p>Žánr:   {{ product.getGenreName }}</p>
+                            </a>
+                        </div>
+                        <div id="time">
+                            {% if product.getDeliveryTime == 1 %}
+                                <p>Doba dodání:  1 den</p>
+                            {% elseif product.getDeliveryTime == 2 or product.getDeliveryTime == 3 or product.getDeliveryTime == 4 %}
+                                <p>Doba dodání: {{ product.getDeliveryTime }} dny</p>
+                            {% else %}
+                                <p>Doba dodání: {{ product.getDeliveryTime }} dnů</p>
+                            {% endif %}
+                        </div>
+                        <div id="ca">
+                            {% if product.getInStock <=0 %}
+                                <p>Hra není na skladě</p>
+                            {% else %}
+                                <p>je na sklade</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div id="description">
+                    <p>{{ product.getDescription }}</p>
+                </div>
+                {% if app.user %}
+                <div id="c-f-container">
+                    <p>add comment form</p>
+                    <div id="charNum" data-count="500">Zbývající počet znaků: 500</div>
+                </div>
+                {% else %}
+                <p id="err">Pro přidávání komentářů musíte být příhlášeni.</p>
+                {% endif %}
+                <div id="comment-div">
+                    {% set comments = product.getComments %}
+                    {% for comment in comments %}
+                    <p>
+                        <b style="color:red;">{{ comment.getUser.getUserName }}: </b>{{ comment.getCommentText }}
+                    </p>
+                    {% else %}
+                        <div id="comment-div" style="text-align: center;">
+                            Nejsou zde žádné komentáře.
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% else %}
+            <div id="product-container">
+                <p id="wrong">Nejsou zde žádné hry.<p>
+            </div>
+            {% endif %}
+        </div>
+        <div id="new">
+            <p id="n-p">NOVĚ VYDANÉ HRY</p>
+            <div id="new-container">
+                {% for new_game in newest %}
+                    {{ include('includes/newest.html.twig',{'new_game' : new_game}) }}
+                {% endfor %}
+            </div>
+            <div id="btn-container">
+                <button id="lmbtn" data-offset="8">Načíst další</button>
+            </div>
+        </div>
+        <div id="best">
+            <p id="b-p">NEJPRODÁVANĚJŠÍ HRY</p>
+            {% set i = 0 %}
+            {% for best_game in best %}
+                {% set i = i + 1 %}
+                {{ include('includes/best.html.twig',{'best_game' : best_game}) }}
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

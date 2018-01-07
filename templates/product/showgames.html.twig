@@ -1,11 +1,29 @@
 {# templates/home/default.html.twig #}
 
 {% extends 'base.html.twig' %}
+{% block stylesheets %}
+    {% if app.user %}
+        <link type="text/css" href="{{ asset('custom/css/logged.min.css') }}" rel="stylesheet">
+    {% endif %}
+    <link type="text/css" href="{{ asset('custom/css/result.min.css') }}" rel="stylesheet">
+{% endblock %}
 {% block header %}
     {{ include('includes/header.html.twig',{'platforms' : platforms,'genres' : genres, 'register_form' : register_form, 'error' : error, 'lastUsername' : lastUsername}) }}
 {% endblock %}
 {% block body %}
     <div id="main">
+        <div id="product">
+            {% for product in products %}
+            <a href="{{ path('show',{'id' : product.product_id}) }}">
+                <div class="result-product">
+                    <p class="result-name">{{ product.product_name }} ({{ product.platform_name }})</p>
+                    <p class="result-price">{{ product.price }} Kč</p>
+                </div>
+            </a>
+            {% else %}
+            <p id="wrong">Nejsou zde žádné hry.<p>
+            {% endfor %}
+        </div>
         <div id="new">
             <p id="n-p">NOVĚ VYDANÉ HRY</p>
             <div id="new-container">
@@ -22,7 +40,7 @@
             {% set i = 0 %}
             {% for best_game in best %}
                 {% set i = i + 1 %}
-                {{ include('includes/best.html.twig',{'best_game' : best_game, 'i' : i}) }}
+                {{ include('includes/best.html.twig',{'best_game' : best_game}) }}
             {% endfor %}
         </div>
     </div>

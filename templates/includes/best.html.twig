@@ -1,6 +1,6 @@
 <div class="product">
-    <a href="{{ best_game.getProductName }}">
-        <p class="p-name">{{ 1 }}. {{ best_game.getProductName }}  ({{ best_game.getPlatformName }})</p>
+    <a href="{{ path('show',{'id' : best_game.getProductId}) }}">
+        <p class="p-name">{{ i }}. {{ best_game.getProductName }}  ({{ best_game.getPlatformName }})</p>
         <p class="p-price">{{ best_game.getPrice }} Kč</p>
     </a>
 </div>
